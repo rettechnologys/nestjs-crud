@@ -1,3 +1,17 @@
+## [v5.0.14] - 2020-05-14
+
+### Bug Fixes
+
+- **typeorm** - fixed cache - do not use cache when updating resources [#3](https://github.com/rewiko/crud/pull/3))
+
+## [v5.0.13] - 2021-11-27
+
+Update readme to include release steps
+
+## [v5.0.12] - 2021-11-27
+
+Migrate repo from nestjsx to rewiko
+
 ## [4.6.2] - 2020-05-14
 
 ### Bug Fixes

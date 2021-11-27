@@ -103,6 +103,7 @@ We believe that everyone who's working with NestJs and building some RESTful ser
 
 ```
 yarn bootstrap
+yarn clean
 yarn build
 docker-compose up -d
 yarn test:coverage
@@ -112,6 +113,7 @@ yarn test:coverage
 
 - Merge a PR on master. 
 - Pull and checkout master 
+- Update Changelog and commit
 - Run `yarn pub` - this will publish on the npm repo (need to be logged under rewiko `yarn login`)
 
 ## Support
