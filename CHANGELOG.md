@@ -1,3 +1,9 @@
+## [5.0.17] - 2021-11-28
+
+### Bug Fixes
+
+* 041f761 - fix(crud-typeorm): bug ability to use search and filter features with nested entities 
+  
 ## [5.0.16] - 2021-11-28
 
 ### Bug Fixes
@@ -11,7 +17,7 @@
 * 3e1e5ca - fix(crud): typo fix getMayRouteOptions -> getManyRouteOptions
 * 453d438 - (origin/master) feat(readme): update readme 
 * 6cc1c28 - feat(readme): update release readme 
-* 
+  
 ## [5.0.15] - 2021-11-28
 
 ### Bug Fixes
