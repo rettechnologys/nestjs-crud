@@ -1,7 +1,7 @@
 import {
   QueryFields,
   QuerySort,
-} from '@nestjsx/crud-request/lib/types/request-query.types';
+} from '@rewiko/crud-request/lib/types/request-query.types';
 
 import { QueryFilterOption } from '../types';
 
@@ -29,6 +29,6 @@ export interface JoinOption {
   eager?: boolean;
   exclude?: QueryFields;
   persist?: QueryFields;
-  select?: false;
+  select?: boolean;
   required?: boolean;
 }

@@ -8,7 +8,7 @@ import {
   JoinOption,
   JoinOptions,
   QueryOptions,
-} from '@nestjsx/crud';
+} from '@rewiko/crud';
 import {
   ComparisonOperator,
   ParsedRequestParams,
@@ -17,7 +17,7 @@ import {
   QuerySort,
   SCondition,
   SConditionKey,
-} from '@nestjsx/crud-request';
+} from '@rewiko/crud-request';
 import {
   ClassType,
   hasLength,
@@ -27,7 +27,7 @@ import {
   isObject,
   isUndefined,
   objKeys,
-} from '@nestjsx/util';
+} from '@rewiko/util';
 import { oO } from '@zmotivat0r/o0';
 import { plainToClass } from 'class-transformer';
 import {
@@ -178,6 +178,8 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
   public async updateOne(req: CrudRequest, dto: DeepPartial<T>): Promise<T> {
     const { allowParamsOverride, returnShallow } = req.options.routes.updateOneBase;
     const paramsFilters = this.getParamFilters(req.parsed);
+    // disable cache while updating
+    req.options.query.cache = false;
     const found = await this.getOneOrFail(req, returnShallow);
     const toSave = !allowParamsOverride
       ? { ...found, ...dto, ...paramsFilters, ...req.parsed.authPersist }
@@ -201,6 +203,8 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
    * @param dto
    */
   public async recoverOne(req: CrudRequest): Promise<T> {
+    // disable cache while recovering
+    req.options.query.cache = false;
     const found = await this.getOneOrFail(req, false, true);
     return this.repo.recover(found);
   }
@@ -213,6 +217,8 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
   public async replaceOne(req: CrudRequest, dto: DeepPartial<T>): Promise<T> {
     const { allowParamsOverride, returnShallow } = req.options.routes.replaceOneBase;
     const paramsFilters = this.getParamFilters(req.parsed);
+    // disable cache while replacing
+    req.options.query.cache = false;
     const [_, found] = await oO(this.getOneOrFail(req, returnShallow));
     const toSave = !allowParamsOverride
       ? { ...(found || {}), ...dto, ...paramsFilters, ...req.parsed.authPersist }
@@ -248,6 +254,8 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
    */
   public async deleteOne(req: CrudRequest): Promise<void | T> {
     const { returnDeleted } = req.options.routes.deleteOneBase;
+    // disable cache while deleting
+    req.options.query.cache = false;
     const found = await this.getOneOrFail(req, returnDeleted);
     const toReturn = returnDeleted
       ? plainToClass(this.entityType, { ...found })
@@ -353,7 +361,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     // set cache
     /* istanbul ignore else */
     if (options.query.cache && parsed.cache !== 0) {
-      builder.cache(builder.getQueryAndParameters(), options.query.cache);
+      builder.cache(options.query.cache);
     }
 
     return builder;
@@ -588,6 +596,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     const options = joinOptions[cond.field];
 
     if (!options) {
+      console.warn('relation "' + cond.field + '" not found in allowed relations in the controller. Did you mean to use one of these? [' + Object.keys(joinOptions).join(', ') + ']');
       return true;
     }
 
@@ -810,7 +819,14 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     operator: ComparisonOperator = '$eq',
   ) {
     const time = process.hrtime();
-    const index = `${field}${time[0]}${time[1]}`;
+    // const index = `${field}${time[0]}${time[1]}`;
+    /**
+     * Correcting the Error [Invalid Column Name] or [ syntax error at or near \":\".]
+     * When using filter or search in relational/nested entities.
+     */
+    const safeFieldName = field.replace(/./g, '_');
+    const index = `${safeFieldName}${time[0]}${time[1]}`;
+    
     const args = [
       { field, operator: isNull(value) ? '$isnull' : operator, value },
       index,
@@ -936,7 +952,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
 
   protected getFieldWithAlias(field: string, sort: boolean = false) {
     /* istanbul ignore next */
-    const i = this.dbName === 'mysql' ? '`' : '"';
+    const i = ['mysql', 'mariadb'].includes(this.dbName) ? '`' : '"';
     const cols = field.split('.');
 
     switch (cols.length) {
@@ -1123,7 +1139,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     return { str, params };
   }
 
-  private checkFilterIsArray(cond: QueryFilter, withLength?: boolean) {
+  protected checkFilterIsArray(cond: QueryFilter, withLength?: boolean) {
     /* istanbul ignore if */
     if (
       !Array.isArray(cond.value) ||
@@ -1134,12 +1150,12 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     }
   }
 
-  private checkSqlInjection(field: string): string {
+  protected checkSqlInjection(field: string): string {
     /* istanbul ignore else */
     if (this.sqlInjectionRegEx.length) {
       for (let i = 0; i < this.sqlInjectionRegEx.length; i++) {
         /* istanbul ignore else */
-        if (this.sqlInjectionRegEx[0].test(field)) {
+        if (this.sqlInjectionRegEx[i].test(field)) {
           this.throwBadRequestException(`SQL injection detected: "${field}"`);
         }
       }

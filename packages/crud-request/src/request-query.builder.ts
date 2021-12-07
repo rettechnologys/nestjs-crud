@@ -5,7 +5,7 @@ import {
   isObject,
   isString,
   isUndefined,
-} from '@nestjsx/util';
+} from '@rewiko/util';
 import { stringify } from 'qs';
 
 import {

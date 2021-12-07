@@ -10,8 +10,8 @@ import {
   RequestQueryException,
   RequestQueryParser,
   SCondition,
-} from '@nestjsx/crud-request';
-import { hasLength, isArrayFull, isFunction, isNil } from '@nestjsx/util';
+} from '@rewiko/crud-request';
+import { hasLength, isArrayFull, isFunction, isNil } from '@rewiko/util';
 
 import { PARSED_CRUD_REQUEST_KEY } from '../constants';
 import { CrudActions } from '../enums';

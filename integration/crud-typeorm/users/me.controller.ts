@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Crud, CrudAuth } from '@nestjsx/crud';
+import { Crud, CrudAuth } from '@rewiko/crud';
 
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -30,6 +30,7 @@ import { UsersService } from './users.service';
   },
 })
 @CrudAuth({
+  property: "user",
   filter: (user: User) => ({
     id: user.id,
   }),

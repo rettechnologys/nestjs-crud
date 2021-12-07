@@ -10,7 +10,7 @@ import {
   isStringFull,
   ObjectLiteral,
   objKeys,
-} from '@nestjsx/util';
+} from '@rewiko/util';
 
 import { RequestQueryException } from './exceptions';
 import {

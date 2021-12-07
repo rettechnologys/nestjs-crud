@@ -1,4 +1,4 @@
-import { RequestQueryBuilderOptions } from '@nestjsx/crud-request';
+import { RequestQueryBuilderOptions } from '@rewiko/crud-request';
 
 import { AuthGlobalOptions } from './auth-options.interface';
 import { OperatorsOptions } from './operators-options.interface';
