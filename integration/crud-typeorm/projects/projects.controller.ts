@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Crud } from '@rewiko/crud';
+
+import { Crud, OperatorsOptions, CustomOperators } from '@rewiko/crud';
 
 import { Project } from './project.entity';
 import { ProjectsService } from './projects.service';
@@ -25,6 +26,9 @@ import { ProjectsService } from './projects.service';
       users: {},
     },
   },
+  operators: {
+    custom: { custom: {query: (field: string, param: string) => `${field} = :${param}`}}
+  }
 })
 @ApiTags('projects')
 @Controller('/companies/:companyId/projects')
