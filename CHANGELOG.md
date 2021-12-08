@@ -1,3 +1,9 @@
+## [5.1.0] - 2021-12-08
+
+### Features 
+
+* 0692be2 - feat: add custom operators, thanks to [Darkein](https://github.com/Darkein)
+  
 ## [5.0.17] - 2021-11-28
 
 ### Bug Fixes
