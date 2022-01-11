@@ -1,3 +1,9 @@
+## [5.1.1] - 2022-01-11
+
+### Fix 
+
+* 56d49d3 - Merge remote-tracking branch 'dschoeni/fix/117-eager-breaks-update', thanks to [Dschoeni](https://github.com/dschoeni)
+  
 ## [5.1.0] - 2021-12-08
 
 ### Features 
