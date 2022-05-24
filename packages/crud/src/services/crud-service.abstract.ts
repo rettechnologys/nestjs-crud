@@ -10,18 +10,18 @@ import {
   QueryOptions,
 } from '../interfaces';
 
-export abstract class CrudService<T> {
+export abstract class CrudService<T, DTO = T> {
   abstract getMany(req: CrudRequest): Promise<GetManyDefaultResponse<T> | T[]>;
 
   abstract getOne(req: CrudRequest): Promise<T>;
 
-  abstract createOne(req: CrudRequest, dto: T): Promise<T>;
+  abstract createOne(req: CrudRequest, dto: DTO): Promise<T>;
 
   abstract createMany(req: CrudRequest, dto: CreateManyDto): Promise<T[]>;
 
-  abstract updateOne(req: CrudRequest, dto: T): Promise<T>;
+  abstract updateOne(req: CrudRequest, dto: DTO): Promise<T>;
 
-  abstract replaceOne(req: CrudRequest, dto: T): Promise<T>;
+  abstract replaceOne(req: CrudRequest, dto: DTO): Promise<T>;
 
   abstract deleteOne(req: CrudRequest): Promise<void | T>;
 

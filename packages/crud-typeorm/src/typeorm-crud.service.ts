@@ -29,7 +29,7 @@ import {
   objKeys,
 } from '@rewiko/util';
 import { oO } from '@zmotivat0r/o0';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import {
   Brackets,
   ConnectionOptions,
@@ -38,7 +38,7 @@ import {
   ObjectLiteral,
   Repository,
   SelectQueryBuilder,
-  WhereExpression,
+  WhereExpressionBuilder,
 } from 'typeorm';
 
 interface IAllowedRelation {
@@ -51,7 +51,7 @@ interface IAllowedRelation {
   allowedColumns: string[];
 }
 
-export class TypeOrmCrudService<T> extends CrudService<T> {
+export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
   protected dbName: ConnectionOptions['type'];
   protected entityColumns: string[];
   protected entityPrimaryColumns: string[];
@@ -187,7 +187,8 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
       ? { ...entityIdMap, ...dto, ...paramsFilters, ...req.parsed.authPersist }
       : { ...entityIdMap, ...dto, ...req.parsed.authPersist };
 
-    const updated = await this.repo.save(plainToClass(this.entityType, toSave));
+    const entityInstance = plainToInstance(this.entityType, toSave) as DeepPartial<T>;
+    const updated = await this.repo.save(entityInstance);
 
     if (returnShallow) {
       return updated;
@@ -209,7 +210,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     // disable cache while recovering
     req.options.query.cache = false;
     const found = await this.getOneOrFail(req, false, true);
-    return this.repo.recover(found);
+    return this.repo.recover(found as DeepPartial<T>);
   }
 
   /**
@@ -231,7 +232,9 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
           ...dto,
           ...req.parsed.authPersist,
         };
-    const replaced = await this.repo.save(plainToClass(this.entityType, toSave));
+
+    const entityInstance = plainToInstance(this.entityType, toSave) as DeepPartial<T>;
+    const replaced = await this.repo.save(entityInstance);
 
     if (returnShallow) {
       return replaced;
@@ -261,11 +264,11 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     req.options.query.cache = false;
     const found = await this.getOneOrFail(req, returnDeleted);
     const toReturn = returnDeleted
-      ? plainToClass(this.entityType, { ...found })
+      ? plainToInstance(this.entityType, { ...found })
       : undefined;
     const deleted =
       req.options.query.softDelete === true
-        ? await this.repo.softRemove(found)
+        ? await this.repo.softRemove(found as DeepPartial<T>)
         : await this.repo.remove(found);
     return toReturn;
   }
@@ -460,7 +463,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
 
     return dto instanceof this.entityType
       ? { ...dto, ...parsed.authPersist }
-      : plainToClass(this.entityType, { ...dto, ...parsed.authPersist });
+      : plainToInstance(this.entityType, { ...dto, ...parsed.authPersist });
   }
 
   protected getAllowedColumns(columns: string[], options: QueryOptions): string[] {
@@ -599,7 +602,13 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
     const options = joinOptions[cond.field];
 
     if (!options) {
-      console.warn('relation "' + cond.field + '" not found in allowed relations in the controller. Did you mean to use one of these? [' + Object.keys(joinOptions).join(', ') + ']');
+      console.warn(
+        'relation "' +
+          cond.field +
+          '" not found in allowed relations in the controller. Did you mean to use one of these? [' +
+          Object.keys(joinOptions).join(', ') +
+          ']',
+      );
       return true;
     }
 
@@ -634,7 +643,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
   protected setAndWhere(
     cond: QueryFilter,
     i: any,
-    builder: SelectQueryBuilder<T> | WhereExpression,
+    builder: SelectQueryBuilder<T> | WhereExpressionBuilder,
     customOperators: CustomOperators,
   ) {
     const { str, params } = this.mapOperatorsToQuery(
@@ -648,7 +657,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
   protected setOrWhere(
     cond: QueryFilter,
     i: any,
-    builder: SelectQueryBuilder<T> | WhereExpression,
+    builder: SelectQueryBuilder<T> | WhereExpressionBuilder,
     customOperators: CustomOperators,
   ) {
     const { str, params } = this.mapOperatorsToQuery(
@@ -829,7 +838,7 @@ export class TypeOrmCrudService<T> extends CrudService<T> {
      */
     const safeFieldName = field.replace(/./g, '_');
     const index = `${safeFieldName}${time[0]}${time[1]}`;
-    
+
     const args = [
       { field, operator: isNull(value) ? '$isnull' : operator, value },
       index,
