@@ -1,3 +1,10 @@
+## [5.1.2] - 2022-05-24
+
+### Fix deps
+
+* 0028dba0 - Merge pull request #9 from H4ad/fix/deps
+    fix(deps): upgrade all dependencies, thanks to [Vinicius Lourenço](https://github.com/H4ad)
+  
 ## [5.1.1] - 2022-01-11
 
 ### Fix 
