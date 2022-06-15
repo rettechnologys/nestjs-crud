@@ -1,5 +1,5 @@
 {
-  "name": "@rewiko/util",
+  "name": "@dataui/crud-util",
   "description": "NestJs CRUD for RESTful APIs - util",
   "version": "5.1.2",
   "license": "MIT",
@@ -14,10 +14,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/rewiko/crud.git"
+    "url": "https://github.com/dataui/crud.git"
   },
   "bugs": {
-    "url": "https://github.com/rewiko/crud/issues"
+    "url": "https://github.com/dataui/crud/issues"
   },
   "keywords": [
     "typescript",

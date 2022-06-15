@@ -1,4 +1,4 @@
-import { ParsedRequestParams } from '@rewiko/crud-request';
+import { ParsedRequestParams } from '@dataui/crud-request';
 
 import { CrudRequestOptions } from '../interfaces';
 

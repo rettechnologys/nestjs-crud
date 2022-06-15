@@ -1,5 +1,5 @@
-import { SCondition } from '@rewiko/crud-request/lib/types/request-query.types';
-import { ObjectLiteral } from '@rewiko/util';
+import { SCondition } from '@dataui/crud-request/lib/types/request-query.types';
+import { ObjectLiteral } from 'crud-util/src';
 
 export interface AuthGlobalOptions {
   property?: string;

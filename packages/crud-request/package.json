@@ -1,5 +1,5 @@
 {
-  "name": "@rewiko/crud-request",
+  "name": "@dataui/crud-request",
   "description": "NestJs CRUD for RESTful APIs - request query builder",
   "version": "5.1.2",
   "license": "MIT",
@@ -14,10 +14,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/rewiko/crud.git"
+    "url": "https://github.com/dataui/crud.git"
   },
   "bugs": {
-    "url": "https://github.com/rewiko/crud/issues"
+    "url": "https://github.com/dataui/crud/issues"
   },
   "keywords": [
     "typescript",
@@ -48,7 +48,7 @@
     "build": "npx tsc -b"
   },
   "dependencies": {
-    "@rewiko/util": "^5.1.2",
+    "@dataui/crud-util": "^5.1.2",
     "qs": "^6.8.0"
   },
   "gitHead": "d9e468bd6e47762cf0de415d049f56078195ddb3"

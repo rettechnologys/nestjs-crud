@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { ParsedRequestParams } from '@rewiko/crud-request';
-import { objKeys } from '@rewiko/util';
+import { ParsedRequestParams } from '@dataui/crud-request';
+import { objKeys } from '@dataui/crud-util';
 
 import {
   CreateManyDto,
