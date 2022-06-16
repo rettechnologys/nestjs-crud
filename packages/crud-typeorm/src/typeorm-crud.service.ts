@@ -76,6 +76,10 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     return this.repo.findOne.bind(this.repo);
   }
 
+  public get findOneBy(): Repository<T>['findOneBy'] {
+    return this.repo.findOneBy.bind(this.repo);
+  }
+
   public get find(): Repository<T>['find'] {
     return this.repo.find.bind(this.repo);
   }
@@ -636,7 +640,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
         ...columns,
       ].map((col) => `${alias}.${col}`);
 
-      builder.addSelect(select);
+      builder.addSelect(Array.from(new Set(select)));
     }
   }
 
@@ -951,7 +955,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       ...this.entityPrimaryColumns,
     ].map((col) => `${this.alias}.${col}`);
 
-    return select;
+    return Array.from(new Set(select));
   }
 
   protected getSort(query: ParsedRequestParams, options: QueryOptions) {

@@ -1,10 +1,10 @@
 import { join } from 'path';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { DataSourceOptions } from 'typeorm';
 import { isNil } from '@dataui/crud-util';
 
 const type = (process.env.TYPEORM_CONNECTION as any) || 'postgres';
 
-export const withCache: TypeOrmModuleOptions = {
+export const withCache: DataSourceOptions = {
   type,
   host: '127.0.0.1',
   port: type === 'postgres' ? 5455 : 3316,
@@ -23,4 +23,8 @@ export const withCache: TypeOrmModuleOptions = {
     },
   },
   entities: [join(__dirname, './**/*.entity{.ts,.js}')],
+  migrationsTableName: 'orm_migrations',
+  migrations: [
+    './seeds.ts'
+  ]
 };

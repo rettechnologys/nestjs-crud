@@ -108,7 +108,7 @@ describe('#crud', () => {
     });
 
     it('should use crudRoutesFactory override', () => {
-      const testController = app.get('TestController');
+      const testController: any = app.get<TestController>(TestController);
       const { operationId } = Swagger.getOperation(testController.replaceOneBase);
       expect(operationId).toEqual('_replaceOneBaseTestModel');
     });

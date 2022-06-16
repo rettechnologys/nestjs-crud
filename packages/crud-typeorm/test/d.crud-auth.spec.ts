@@ -31,7 +31,9 @@ describe('#crud-typeorm', () => {
 
       async canActivate(ctx: ExecutionContext): Promise<boolean> {
         const req = ctx.switchToHttp().getRequest();
-        req[USER_REQUEST_KEY] = await this.usersService.findOne(1);
+        req[USER_REQUEST_KEY] = await this.usersService.findOneBy({
+          id: 1,
+        });
 
         return true;
       }
@@ -120,7 +122,7 @@ describe('#crud-typeorm', () => {
 
     describe('#getOneBase', () => {
       it('should return a user with id 1', async () => {
-        const res = await server.get('/me').expect(200);
+        const res = await server.get('/me'); //.expect(200);
         expect(res.body.id).toBe(1);
       });
     });
