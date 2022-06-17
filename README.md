@@ -86,6 +86,12 @@ We believe that everyone who's working with NestJs and building some RESTful ser
 
 - :pencil2: Swagger documentation
 
+## Typeorm 0.3.X support
+
+Still in alpha you can install via :
+
+  yarn add @dataui/crud-typeorm@5.2.0-alpha.0
+
 ## Packages
 
 - [**@dataui/crud**](https://www.npmjs.com/package/@dataui/crud) - core package which provides `@Crud()` decorator for endpoints generation, global configuration, validation, helper decorators ([docs](https://github.com/dataui/crud/wiki/Controllers#description))
@@ -114,7 +120,7 @@ yarn test:coverage
 - Merge a PR on master.
 - Pull and checkout master
 - Update Changelog and commit
-- Run tests `yarn clean && yarn build && docker compose up -d && yarn test:coverage`
+- Run tests `yarn clean && yarn build && docker-compose up -d && yarn test:coverage`
 - Run `yarn pub` - this will publish on the npm repo (need to be logged under dataui `yarn login`)
 
 ## Support
