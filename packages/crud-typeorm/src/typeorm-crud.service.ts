@@ -310,10 +310,10 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     builder.select(select);
 
     // search
-    this.setSearchCondition(builder, parsed.search, options.operators.custom);
+    this.setSearchCondition(builder, parsed.search, options.operators?.custom);
 
     // set joins
-    const joinOptions = options.query.join || {};
+    const joinOptions = options.query?.join || {};
     const allowedJoins = objKeys(joinOptions);
 
     if (hasLength(allowedJoins)) {
@@ -431,7 +431,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       : await this.createBuilder(parsed, options, true, withDeleted);
 
     if (shallow) {
-      this.setSearchCondition(builder, parsed.search, options.operators.custom);
+      this.setSearchCondition(builder, parsed.search, options.operators?.custom);
     }
 
     const found = withDeleted
