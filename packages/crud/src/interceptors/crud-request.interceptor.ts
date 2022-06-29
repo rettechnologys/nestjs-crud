@@ -31,7 +31,7 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
         const { ctrlOptions, crudOptions, action } = this.getCrudInfo(context);
         const parser = RequestQueryParser.create();
 
-        parser.parseQuery(req.query, crudOptions.operators.custom);
+        parser.parseQuery(req.query, crudOptions.operators?.custom);
 
         if (!isNil(ctrlOptions)) {
           const search = this.getSearch(parser, crudOptions, action, req.params);
