@@ -90,7 +90,7 @@ We believe that everyone who's working with NestJs and building some RESTful ser
 
 Still in alpha you can install via :
 
-  yarn add @dataui/crud-typeorm@5.2.0-alpha.3
+  yarn add @dataui/crud-typeorm@5.2.0-alpha.4
 
 ## Packages
 
