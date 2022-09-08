@@ -308,6 +308,13 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     const select = this.getSelect(parsed, options.query);
     // select fields
     builder.select(select);
+      
+    // if soft deleted is enabled add where statement to filter deleted records
+    if (this.entityHasDeleteColumn && options.query.softDelete) {
+      if (parsed.includeDeleted === 1 || withDeleted) {
+        builder.withDeleted();
+      }
+    }
 
     // search
     this.setSearchCondition(builder, parsed.search, options.operators?.custom);
@@ -337,13 +344,6 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
             this.setJoin(parsed.join[i], joinOptions, builder);
           }
         }
-      }
-    }
-
-    // if soft deleted is enabled add where statement to filter deleted records
-    if (this.entityHasDeleteColumn && options.query.softDelete) {
-      if (parsed.includeDeleted === 1 || withDeleted) {
-        builder.withDeleted();
       }
     }
 
