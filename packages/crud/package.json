@@ -1,7 +1,7 @@
 {
   "name": "@dataui/crud",
   "description": "NestJs CRUD for RESTful APIs",
-  "version": "5.2.0-alpha.4",
+  "version": "5.2.0-alpha.5",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -40,8 +40,8 @@
     "build": "npx tsc -b"
   },
   "dependencies": {
-    "@dataui/crud-request": "^5.2.0-alpha.4",
-    "@dataui/crud-util": "^5.2.0-alpha.4",
+    "@dataui/crud-request": "^5.2.0-alpha.5",
+    "@dataui/crud-util": "^5.2.0-alpha.5",
     "deepmerge": "^3.2.0",
     "pluralize": "^8.0.0"
   },
