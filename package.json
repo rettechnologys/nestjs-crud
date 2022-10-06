@@ -118,5 +118,9 @@
   "author": {
     "name": "Michael Yali",
     "email": "mihon4ik@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gid-oss/dataui-nestjs-crud"
   }
 }
