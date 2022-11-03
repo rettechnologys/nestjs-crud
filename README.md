@@ -86,11 +86,10 @@ We believe that everyone who's working with NestJs and building some RESTful ser
 
 - :pencil2: Swagger documentation
 
-## Typeorm 0.3.X support
+## Install
 
-Still in alpha you can install via :
+  yarn add @dataui/crud-typeorm
 
-  yarn add @dataui/crud-typeorm@5.2.0-alpha.5
 
 ## Packages
 
