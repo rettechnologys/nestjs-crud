@@ -6,12 +6,13 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import {
-  QueryFilter,
   RequestQueryException,
   RequestQueryParser,
   SCondition,
-} from '@dataui/crud-request';
-import { hasLength, isArrayFull, isFunction, isNil } from '@dataui/crud-util';
+  QueryFilter,
+} from '@nestjsx/crud-request';
+import { isNil, isFunction, isArrayFull, hasLength } from '@nestjsx/util';
+import { ClassTransformOptions } from 'class-transformer';
 
 import { PARSED_CRUD_REQUEST_KEY } from '../constants';
 import { CrudActions } from '../enums';
@@ -20,8 +21,10 @@ import { QueryFilterFunction } from '../types';
 import { CrudBaseInterceptor } from './crud-base.interceptor';
 
 @Injectable()
-export class CrudRequestInterceptor extends CrudBaseInterceptor
-  implements NestInterceptor {
+export class CrudRequestInterceptor
+  extends CrudBaseInterceptor
+  implements NestInterceptor
+{
   intercept(context: ExecutionContext, next: CallHandler) {
     const req = context.switchToHttp().getRequest();
 
@@ -44,7 +47,11 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
           parser.search = { $and: this.getSearch(parser, crudOptions, action) };
         }
 
-        req[PARSED_CRUD_REQUEST_KEY] = this.getCrudRequest(parser, crudOptions, auth?.auth);
+        req[PARSED_CRUD_REQUEST_KEY] = this.getCrudRequest(
+          parser,
+          crudOptions,
+          auth?.auth,
+        );
       }
 
       return next.handle();
@@ -192,6 +199,16 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
       if (isFunction(crudOptions.auth.persist)) {
         parser.setAuthPersist(crudOptions.auth.persist(userOrRequest));
       }
+
+      const options: ClassTransformOptions = {};
+      if (isFunction(crudOptions.auth.classTransformOptions)) {
+        Object.assign(options, crudOptions.auth.classTransformOptions(userOrRequest));
+      }
+
+      if (isFunction(crudOptions.auth.groups)) {
+        options.groups = crudOptions.auth.groups(userOrRequest);
+      }
+      parser.setClassTransformOptions(options);
     }
 
     return auth;

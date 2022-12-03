@@ -9,8 +9,8 @@ import {
   isString,
   isStringFull,
   ObjectLiteral,
-  objKeys,
-} from '@dataui/crud-util';
+} from '@nestjsx/util';
+import { ClassTransformOptions } from 'class-transformer';
 
 import { RequestQueryException } from './exceptions';
 import {
@@ -29,7 +29,8 @@ import {
   validateUUID,
 } from './request-query.validator';
 import {
-  ComparisonOperator, QueryExtra,
+  ComparisonOperator,
+  QueryExtra,
   QueryFields,
   QueryFilter,
   QueryJoin,
@@ -44,6 +45,9 @@ export class RequestQueryParser implements ParsedRequestParams {
   public fields: QueryFields = [];
   public paramsFilter: QueryFilter[] = [];
   public authPersist: ObjectLiteral = undefined;
+
+  public classTransformOptions: ClassTransformOptions = undefined;
+
   public search: SCondition;
   public filter: QueryFilter[] = [];
   public or: QueryFilter[] = [];
@@ -74,6 +78,7 @@ export class RequestQueryParser implements ParsedRequestParams {
       fields: this.fields,
       paramsFilter: this.paramsFilter,
       authPersist: this.authPersist,
+      classTransformOptions: this.classTransformOptions,
       search: this.search,
       filter: this.filter,
       or: this.or,
@@ -159,6 +164,10 @@ export class RequestQueryParser implements ParsedRequestParams {
     this.authPersist = persist || /* istanbul ignore next */ {};
   }
 
+  setClassTransformOptions(options: ClassTransformOptions = {}) {
+    this.classTransformOptions = options || /* istanbul ignore next */ {};
+  }
+
   convertFilterToSearch(filter: QueryFilter): SFields | SConditionAND {
     const isEmptyValue = {
       isnull: true,
@@ -214,15 +223,16 @@ export class RequestQueryParser implements ParsedRequestParams {
   }
 
   private parseExtraFromQueryParam(): QueryExtra {
-    const params = Array.isArray(this._options.paramNamesMap.extra) ? this._options.paramNamesMap.extra : [this._options.paramNamesMap.extra];
-    const extraKeys = Object
-        .keys(this._query || {})
-        .filter(k => params.find(p => k?.startsWith(p)))
-        .reduce((o, k) => {
-          const key = k.replace('extra.', '');
-          this.parseDotChainToObject(this._query[k], key, o)
-          return o;
-        }, {});
+    const params = Array.isArray(this._options.paramNamesMap.extra)
+      ? this._options.paramNamesMap.extra
+      : [this._options.paramNamesMap.extra];
+    const extraKeys = Object.keys(this._query || {})
+      .filter((k) => params.find((p) => k?.startsWith(p)))
+      .reduce((o, k) => {
+        const key = k.replace('extra.', '');
+        this.parseDotChainToObject(this._query[k], key, o);
+        return o;
+      }, {});
     return Object.keys(extraKeys).length > 0 ? extraKeys : undefined;
   }
 
@@ -241,7 +251,7 @@ export class RequestQueryParser implements ParsedRequestParams {
       result[firstKey] = {};
       this.parseDotChainToObject(data, keys.join('.'), result[firstKey]);
     } else {
-      result[key] = this.parseValue(data)
+      result[key] = this.parseValue(data);
     }
   }
 

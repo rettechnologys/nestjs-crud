@@ -185,14 +185,17 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     // disable cache while updating
     req.options.query.cache = false;
     const found = await this.getOneOrFail(req, returnShallow);
-    const entityIdMap = this.repo.metadata.getEntityIdMap(found);
 
     const toSave = !allowParamsOverride
-      ? { ...entityIdMap, ...dto, ...paramsFilters, ...req.parsed.authPersist }
-      : { ...entityIdMap, ...dto, ...req.parsed.authPersist };
-
-    const entityInstance = plainToInstance(this.entityType, toSave) as DeepPartial<T>;
-    const updated = await this.repo.save(entityInstance);
+      ? { ...found, ...dto, ...paramsFilters, ...req.parsed.authPersist }
+      : { ...found, ...dto, ...req.parsed.authPersist };
+    const updated = await this.repo.save(
+      plainToClass(
+        this.entityType,
+        toSave,
+        req.parsed.classTransformOptions,
+      ) as unknown as DeepPartial<T>,
+    );
 
     if (returnShallow) {
       return updated;
@@ -236,9 +239,13 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
           ...dto,
           ...req.parsed.authPersist,
         };
-
-    const entityInstance = plainToInstance(this.entityType, toSave) as DeepPartial<T>;
-    const replaced = await this.repo.save(entityInstance);
+    const replaced = await this.repo.save(
+      plainToClass(
+        this.entityType,
+        toSave,
+        req.parsed.classTransformOptions,
+      ) as unknown as DeepPartial<T>,
+    );
 
     if (returnShallow) {
       return replaced;
@@ -268,7 +275,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     req.options.query.cache = false;
     const found = await this.getOneOrFail(req, returnDeleted);
     const toReturn = returnDeleted
-      ? plainToInstance(this.entityType, { ...found })
+      ? plainToClass(this.entityType, { ...found }, req.parsed.classTransformOptions)
       : undefined;
     const deleted =
       req.options.query.softDelete === true
@@ -308,7 +315,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     const select = this.getSelect(parsed, options.query);
     // select fields
     builder.select(select);
-      
+
     // if soft deleted is enabled add where statement to filter deleted records
     if (this.entityHasDeleteColumn && options.query.softDelete) {
       if (parsed.includeDeleted === 1 || withDeleted) {
@@ -466,8 +473,12 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     }
 
     return dto instanceof this.entityType
-      ? { ...dto, ...parsed.authPersist }
-      : plainToInstance(this.entityType, { ...dto, ...parsed.authPersist });
+      ? Object.assign(dto, parsed.authPersist)
+      : plainToClass(
+          this.entityType,
+          { ...dto, ...parsed.authPersist },
+          parsed.classTransformOptions,
+        );
   }
 
   protected getAllowedColumns(columns: string[], options: QueryOptions): string[] {
@@ -485,9 +496,10 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
         );
   }
 
-  protected getEntityColumns(
-    entityMetadata: EntityMetadata,
-  ): { columns: string[]; primaryColumns: string[] } {
+  protected getEntityColumns(entityMetadata: EntityMetadata): {
+    columns: string[];
+    primaryColumns: string[];
+  } {
     const columns =
       entityMetadata.columns.map((prop) => prop.propertyPath) ||
       /* istanbul ignore next */ [];

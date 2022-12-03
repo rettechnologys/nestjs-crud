@@ -509,56 +509,55 @@ describe('#request-query', () => {
         expect(test.extra).toBeUndefined();
       });
       it('should set as string', () => {
-        const query = {'extra': 'bar'};
+        const query = { extra: 'bar' };
         const test = qp.parseQuery(query);
         expect(test.extra).toBeUndefined();
       });
       it('should set as object 1', () => {
-        const query = {'extra.foo': 'bar'};
+        const query = { 'extra.foo': 'bar' };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: 'bar'});
+        expect(test.extra).toEqual({ foo: 'bar' });
       });
       it('should set as object 2', () => {
-        const query = {'extra.foo': 'bar', 'extra.foo2': 'bar2'};
+        const query = { 'extra.foo': 'bar', 'extra.foo2': 'bar2' };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: 'bar', foo2: 'bar2'});
+        expect(test.extra).toEqual({ foo: 'bar', foo2: 'bar2' });
       });
       it('should set as object contain array', () => {
-        const query = {'extra.foo': ['bar', 'bar2']};
+        const query = { 'extra.foo': ['bar', 'bar2'] };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: ['bar','bar2']});
+        expect(test.extra).toEqual({ foo: ['bar', 'bar2'] });
       });
 
       it('should set as simple object', () => {
-        const query = {'extra.foo': 'bar'};
+        const query = { 'extra.foo': 'bar' };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: 'bar'});
+        expect(test.extra).toEqual({ foo: 'bar' });
       });
 
       it('should set as hero object', () => {
-        const query = {'extra.foo.bar.hero': 'me'};
+        const query = { 'extra.foo.bar.hero': 'me' };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: {bar: {hero: 'me'}}});
+        expect(test.extra).toEqual({ foo: { bar: { hero: 'me' } } });
       });
 
       it('should set as number object', () => {
-        const query = {'extra.foo.bar.number': 100};
+        const query = { 'extra.foo.bar.number': 100 };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: {bar: {number: 100}}});
+        expect(test.extra).toEqual({ foo: { bar: { number: 100 } } });
       });
 
       it('should set as object with undefined value', () => {
-        const query = {'extra.foo.bar.none': undefined};
+        const query = { 'extra.foo.bar.none': undefined };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: {bar: {none: undefined}}});
+        expect(test.extra).toEqual({ foo: { bar: { none: undefined } } });
       });
 
       it('should set as object with null value', () => {
-        const query = {'extra.foo.bar.none': null};
+        const query = { 'extra.foo.bar.none': null };
         const test = qp.parseQuery(query);
-        expect(test.extra).toEqual({foo: {bar: {none: null}}});
+        expect(test.extra).toEqual({ foo: { bar: { none: null } } });
       });
-
     });
 
     describe('#setAuthPersist', () => {
@@ -574,6 +573,19 @@ describe('#request-query', () => {
       });
     });
 
+    describe('#setClassTransformOptions', () => {
+      it('it should set classTransformOptions, 1', () => {
+        qp.setClassTransformOptions();
+        expect(qp.classTransformOptions).toMatchObject({});
+      });
+      it('it should set classTransformOptions, 2', () => {
+        const testOptions = { groups: ['TEST'] };
+        qp.setClassTransformOptions(testOptions);
+        const parsed = qp.getParsed();
+        expect(parsed.classTransformOptions).toMatchObject(testOptions);
+      });
+    });
+
     describe('#getParsed', () => {
       it('should return parsed params', () => {
         const expected: ParsedRequestParams = {
@@ -581,6 +593,7 @@ describe('#request-query', () => {
           paramsFilter: [],
           search: undefined,
           authPersist: undefined,
+          classTransformOptions: undefined,
           filter: [],
           or: [],
           join: [],
