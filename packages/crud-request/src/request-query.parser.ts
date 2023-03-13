@@ -29,7 +29,7 @@ import {
   validateUUID,
 } from './request-query.validator';
 import {
-  ComparisonOperator,
+  ComparisonOperator, QueryExtra,
   QueryFields,
   QueryFilter,
   QueryJoin,
@@ -54,6 +54,7 @@ export class RequestQueryParser implements ParsedRequestParams {
   public page: number;
   public cache: number;
   public includeDeleted: number;
+  public extra?: QueryExtra;
 
   private _params: any;
   private _query: any;
@@ -83,6 +84,7 @@ export class RequestQueryParser implements ParsedRequestParams {
       page: this.page,
       cache: this.cache,
       includeDeleted: this.includeDeleted,
+      extra: this.extra,
     };
   }
 
@@ -129,6 +131,8 @@ export class RequestQueryParser implements ParsedRequestParams {
           'includeDeleted',
           this.numericParser.bind(this, 'includeDeleted'),
         )[0];
+
+        this.extra = this.parseExtraFromQueryParam();
       }
     }
 
@@ -207,6 +211,19 @@ export class RequestQueryParser implements ParsedRequestParams {
     }
 
     return [];
+  }
+
+  private parseExtraFromQueryParam(): QueryExtra {
+    const params = Array.isArray(this._options.paramNamesMap.extra) ? this._options.paramNamesMap.extra : [this._options.paramNamesMap.extra];
+    const extraKeys = Object
+        .keys(this._query || {})
+        .filter(k => params.find(p => k?.startsWith(p)))
+        .reduce((o, k) => {
+          o[k.replace('extra.', '')] = this.parseValues(this._query[k]);
+          return o;
+        }, {});
+
+    return Object.keys(extraKeys).length > 0 ? extraKeys : null;
   }
 
   private parseValue(val: any) {

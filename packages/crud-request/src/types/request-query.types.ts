@@ -20,6 +20,9 @@ export interface QuerySort {
   order: QuerySortOperator;
 }
 
+/** Extra object or null */
+export type QueryExtra = any | null;
+
 export type QuerySortArr = [string, QuerySortOperator];
 
 export type QuerySortOperator = 'ASC' | 'DESC';

@@ -52,6 +52,7 @@ export class RequestQueryBuilder {
       page: 'page',
       cache: 'cache',
       includeDeleted: 'include_deleted',
+      extra: 'extra.',
     },
   };
   private paramNames: {
