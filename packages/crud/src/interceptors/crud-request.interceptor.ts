@@ -33,9 +33,10 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
 
         parser.parseQuery(req.query, crudOptions.operators?.custom);
 
+        let auth = null;
         if (!isNil(ctrlOptions)) {
           const search = this.getSearch(parser, crudOptions, action, req.params);
-          const auth = this.getAuth(parser, crudOptions, req);
+          auth = this.getAuth(parser, crudOptions, req);
           parser.search = auth.or
             ? { $or: [auth.or, { $and: search }] }
             : { $and: [auth.filter, ...search] };
@@ -43,7 +44,7 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
           parser.search = { $and: this.getSearch(parser, crudOptions, action) };
         }
 
-        req[PARSED_CRUD_REQUEST_KEY] = this.getCrudRequest(parser, crudOptions);
+        req[PARSED_CRUD_REQUEST_KEY] = this.getCrudRequest(parser, crudOptions, auth?.auth);
       }
 
       return next.handle();
@@ -58,10 +59,10 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
   getCrudRequest(
     parser: RequestQueryParser,
     crudOptions: Partial<MergedCrudOptions>,
+    auth?: any,
   ): CrudRequest {
     const parsed = parser.getParsed();
     const { query, routes, params, operators } = crudOptions;
-
     return {
       parsed,
       options: {
@@ -70,6 +71,7 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
         params,
         operators,
       },
+      auth,
     };
   }
 
@@ -159,7 +161,7 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
     parser: RequestQueryParser,
     crudOptions: Partial<MergedCrudOptions>,
     req: any,
-  ): { filter?: any; or?: any } {
+  ): { filter?: any; or?: any; auth?: any } {
     const auth: any = {};
 
     /* istanbul ignore else */
@@ -167,6 +169,16 @@ export class CrudRequestInterceptor extends CrudBaseInterceptor
       const userOrRequest = crudOptions.auth.property
         ? req[crudOptions.auth.property]
         : req;
+
+      if (crudOptions.auth.property && req[crudOptions.auth.property]) {
+        if (typeof req[crudOptions.auth.property] === 'object') {
+          if (Object.keys(req[crudOptions.auth.property]).length > 0) {
+            auth.auth = req[crudOptions.auth.property];
+          }
+        } else {
+          auth.auth = req[crudOptions.auth.property];
+        }
+      }
 
       if (isFunction(crudOptions.auth.or)) {
         auth.or = crudOptions.auth.or(userOrRequest);
