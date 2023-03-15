@@ -497,6 +497,70 @@ describe('#request-query', () => {
       });
     });
 
+    describe('#parse extra', () => {
+      it('should set undefined 1', () => {
+        const query = {};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toBeUndefined();
+      });
+      it('should set undefined 2', () => {
+        const query = { extra: '' };
+        const test = qp.parseQuery(query);
+        expect(test.extra).toBeUndefined();
+      });
+      it('should set as string', () => {
+        const query = {'extra': 'bar'};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toBeUndefined();
+      });
+      it('should set as object 1', () => {
+        const query = {'extra.foo': 'bar'};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: 'bar'});
+      });
+      it('should set as object 2', () => {
+        const query = {'extra.foo': 'bar', 'extra.foo2': 'bar2'};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: 'bar', foo2: 'bar2'});
+      });
+      it('should set as object contain array', () => {
+        const query = {'extra.foo': ['bar', 'bar2']};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: ['bar','bar2']});
+      });
+
+      it('should set as simple object', () => {
+        const query = {'extra.foo': 'bar'};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: 'bar'});
+      });
+
+      it('should set as hero object', () => {
+        const query = {'extra.foo.bar.hero': 'me'};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: {bar: {hero: 'me'}}});
+      });
+
+      it('should set as number object', () => {
+        const query = {'extra.foo.bar.number': 100};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: {bar: {number: 100}}});
+      });
+
+      it('should set as object with undefined value', () => {
+        const query = {'extra.foo.bar.none': undefined};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: {bar: {none: undefined}}});
+      });
+
+      it('should set as object with null value', () => {
+        const query = {'extra.foo.bar.none': null};
+        const test = qp.parseQuery(query);
+        expect(test.extra).toEqual({foo: {bar: {none: null}}});
+      });
+
+    });
+
     describe('#setAuthPersist', () => {
       it('it should set authPersist, 1', () => {
         qp.setAuthPersist();

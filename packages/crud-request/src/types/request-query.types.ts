@@ -21,7 +21,7 @@ export interface QuerySort {
 }
 
 /** Extra object or null */
-export type QueryExtra = any | null;
+export type QueryExtra = any | undefined;
 
 export type QuerySortArr = [string, QuerySortOperator];
 

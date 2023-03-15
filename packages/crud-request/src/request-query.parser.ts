@@ -219,11 +219,30 @@ export class RequestQueryParser implements ParsedRequestParams {
         .keys(this._query || {})
         .filter(k => params.find(p => k?.startsWith(p)))
         .reduce((o, k) => {
-          o[k.replace('extra.', '')] = this.parseValues(this._query[k]);
+          const key = k.replace('extra.', '');
+          this.parseDotChainToObject(this._query[k], key, o)
           return o;
         }, {});
+    return Object.keys(extraKeys).length > 0 ? extraKeys : undefined;
+  }
 
-    return Object.keys(extraKeys).length > 0 ? extraKeys : null;
+  /**
+   * Build an object from data and composite key.
+   *
+   * @param data to used on parse workflow
+   * @param key composite key as 'foo.bar.hero'
+   * @param result object with parsed "data" and "key" structure
+   * @private
+   */
+  private parseDotChainToObject(data: any, key: string, result = {}): QueryExtra {
+    if (key.includes('.')) {
+      const keys = key.split('.');
+      const firstKey = keys.shift();
+      result[firstKey] = {};
+      this.parseDotChainToObject(data, keys.join('.'), result[firstKey]);
+    } else {
+      result[key] = this.parseValue(data)
+    }
   }
 
   private parseValue(val: any) {
