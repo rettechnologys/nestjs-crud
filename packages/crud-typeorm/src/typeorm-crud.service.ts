@@ -29,7 +29,7 @@ import {
   objKeys,
 } from '@dataui/crud-util';
 import { oO } from '@zmotivat0r/o0';
-import { plainToInstance } from 'class-transformer';
+import { plainToClass } from 'class-transformer';
 import {
   Brackets,
   ConnectionOptions,

@@ -10,8 +10,8 @@ import {
   RequestQueryParser,
   SCondition,
   QueryFilter,
-} from '@nestjsx/crud-request';
-import { isNil, isFunction, isArrayFull, hasLength } from '@nestjsx/util';
+} from '@dataui/crud-request';
+import { isNil, isFunction, isArrayFull, hasLength } from '@dataui/crud-util';
 import { ClassTransformOptions } from 'class-transformer';
 
 import { PARSED_CRUD_REQUEST_KEY } from '../constants';

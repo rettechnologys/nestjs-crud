@@ -9,7 +9,8 @@ import {
   isString,
   isStringFull,
   ObjectLiteral,
-} from '@nestjsx/util';
+  objKeys,
+} from '@dataui/crud-util';
 import { ClassTransformOptions } from 'class-transformer';
 
 import { RequestQueryException } from './exceptions';
