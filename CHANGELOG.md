@@ -1,41 +1,61 @@
+## [5.2.3] - 2023-03-16
+
+### Features
+
+- Support passing options to class-transformer
+- Support auth and extra parameters in CrudRequest, thanks to [gantispam](https://github.com/gantispam)
+
+## [5.2.2] - 2022-12-05
+
+### Features
+
+- Switch to typeorm 0.3.6
+
 ## [5.1.2] - 2022-05-24
 
 ### Fix deps
 
-* 0028dba0 - Merge pull request #9 from H4ad/fix/deps
-    fix(deps): upgrade all dependencies, thanks to [Vinicius Lourenço](https://github.com/H4ad)
+- 0028dba0 - Merge pull request #9 from H4ad/fix/deps
+  fix(deps): upgrade all dependencies, thanks to [Vinicius Lourenço](https://github.com/H4ad)
+
+## [5.1.2] - 2022-05-24
+
+### Fix deps
+
+- 0028dba0 - Merge pull request #9 from H4ad/fix/deps
+  fix(deps): upgrade all dependencies, thanks to [Vinicius Lourenço](https://github.com/H4ad)
 
 ## [5.1.1] - 2022-01-11
 
 ### Fix
 
-* 56d49d3 - Merge remote-tracking branch 'dschoeni/fix/117-eager-breaks-update', thanks to [Dschoeni](https://github.com/dschoeni)
+- 56d49d3 - Merge remote-tracking branch 'dschoeni/fix/117-eager-breaks-update', thanks to [Dschoeni](https://github.com/dschoeni)
 
 ## [5.1.0] - 2021-12-08
 
 ### Features
 
-* 0692be2 - feat: add custom operators, thanks to [Darkein](https://github.com/Darkein)
+- 0692be2 - feat: add custom operators, thanks to [Darkein](https://github.com/Darkein)
 
 ## [5.0.17] - 2021-11-28
 
 ### Bug Fixes
 
-* 041f761 - fix(crud-typeorm): bug ability to use search and filter features with nested entities
+- 041f761 - fix(crud-typeorm): bug ability to use search and filter features with nested entities
 
 ## [5.0.16] - 2021-11-28
 
 ### Bug Fixes
 
-* bd28914 - fix(typeorm-crud): fix(typeorm): correct quotes for column identifiers when driver is mariadb
-* 91e2bae - fix(typeorm-crud): fix sql injection check looping on the first regex
-* b5f05c7 - fix(typeorm-crud): add warning when using disallowed relation
-* e17847f - fix(crud-update): make updateOneBase dto type partial
-* 0d1eed2 - fix(auth): fix filter for user in meController
-* 0f3fd22 - fix(swagger): fix constant when getting swagger extra models
-* 3e1e5ca - fix(crud): typo fix getMayRouteOptions -> getManyRouteOptions
-* 453d438 - (origin/master) feat(readme): update readme
-* 6cc1c28 - feat(readme): update release readme
+- bd28914 - fix(typeorm-crud): fix(typeorm): correct quotes for column identifiers when driver is mariadb
+- 91e2bae - fix(typeorm-crud): fix sql injection check looping on the first regex
+- b5f05c7 - fix(typeorm-crud): add warning when using disallowed relation
+- e17847f - fix(crud-update): make updateOneBase dto type partial
+- 0d1eed2 - fix(auth): fix filter for user in meController
+- 0f3fd22 - fix(swagger): fix constant when getting swagger extra models
+- 3e1e5ca - fix(crud): typo fix getMayRouteOptions -> getManyRouteOptions
+- 453d438 - (origin/master) feat(readme): update readme
+- 6cc1c28 - feat(readme): update release readme
 
 ## [5.0.15] - 2021-11-28
 
