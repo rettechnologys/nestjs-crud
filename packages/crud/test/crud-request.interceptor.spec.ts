@@ -1,12 +1,13 @@
 import {
-  Controller,
-  Get,
+  CanActivate,
+  Controller, ExecutionContext,
+  Get, Injectable,
   Param,
   ParseIntPipe,
-  Query,
+  Query, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { NestApplication } from '@nestjs/core';
+import { APP_GUARD, NestApplication } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
 import { RequestQueryBuilder } from '@dataui/crud-request';
 import * as supertest from 'supertest';
@@ -15,9 +16,22 @@ import { CrudRequestInterceptor } from '../src/interceptors';
 import { CrudRequest } from '../src/interfaces';
 import { TestModel } from './__fixture__/models';
 import { TestService } from './__fixture__/services';
+import { USER_REQUEST_KEY } from '../../../integration/crud-typeorm/constants';
+
+const MOCKED_AUTH_OBJ = {id: 1, firstname: 'foo', lastname: 'bar'}
 
 // tslint:disable:max-classes-per-file
 describe('#crud', () => {
+
+  @Injectable()
+  class AuthGuardMock implements CanActivate {
+    async canActivate(ctx: ExecutionContext): Promise<boolean> {
+      const req = ctx.switchToHttp().getRequest();
+      req[USER_REQUEST_KEY] = MOCKED_AUTH_OBJ;
+      return true;
+    }
+  }
+
   @UseInterceptors(CrudRequestInterceptor)
   @Controller('test')
   class TestController {
@@ -123,18 +137,37 @@ describe('#crud', () => {
     constructor(public service: TestService<TestModel>) {}
   }
 
+  @Crud({
+    model: { type: TestModel },
+  })
+  @CrudAuth({
+    property: 'user',
+  })
+  @UseGuards(AuthGuardMock)
+  @Controller('test-with-auth')
+  class TestWithAuthController {
+    constructor(public service: TestService<TestModel>) {}
+  }
+
   let $: supertest.SuperTest<supertest.Test>;
   let app: NestApplication;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      providers: [TestService],
+      providers: [
+        TestService,
+        {
+          provide: APP_GUARD,
+          useClass: AuthGuardMock,
+        },
+      ],
       controllers: [
         TestController,
         Test2Controller,
         Test3Controller,
         Test4Controller,
         Test5Controller,
+        TestWithAuthController,
       ],
     }).compile();
     app = module.createNestApplication();
@@ -255,5 +288,26 @@ describe('#crud', () => {
       const search = { $and: [{ user: 'test', buz: 1 }, { name: 'persist' }] };
       expect(res.body.parsed.search).toMatchObject(search);
     });
+
+
+    it('should not contain auth object', async () => {
+      const res = await $.get('/test2')
+          .send({})
+          .expect(200);
+
+      const { auth } = res.body.req;
+      expect(auth).toBeUndefined();
+    });
+
+    it('should contain auth object', async () => {
+      const res = await $.get('/test-with-auth')
+          .send({})
+          .expect(200);
+
+      const { auth } = res.body.req;
+      expect(auth).toMatchObject(MOCKED_AUTH_OBJ);
+    });
+
+
   });
 });

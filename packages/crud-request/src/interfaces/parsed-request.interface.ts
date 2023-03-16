@@ -1,7 +1,7 @@
 import { ObjectLiteral } from '@dataui/crud-util';
 import { QueryFields, QueryFilter, QueryJoin, QuerySort, SCondition } from '../types';
 
-export interface ParsedRequestParams {
+export interface ParsedRequestParams<EXTRA = {}> {
   fields: QueryFields;
   paramsFilter: QueryFilter[];
   authPersist: ObjectLiteral;
@@ -15,4 +15,11 @@ export interface ParsedRequestParams {
   page: number;
   cache: number;
   includeDeleted: number;
+  /**
+   * Extra options.
+   *
+   * Custom extra option come from Request and can be used anywhere you want for your business rules.
+   * CrudRequest lib. do not evaluat this attribut.
+   */
+  extra?: EXTRA;
 }

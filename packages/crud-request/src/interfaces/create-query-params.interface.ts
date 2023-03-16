@@ -1,4 +1,5 @@
 import {
+  QueryExtra,
   QueryFields,
   QueryFilter,
   QueryFilterArr,
@@ -21,4 +22,5 @@ export interface CreateQueryParams {
   page?: number;
   resetCache?: boolean;
   includeDeleted?: number;
+  extra?: QueryExtra;
 }
