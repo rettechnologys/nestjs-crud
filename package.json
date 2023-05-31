@@ -15,6 +15,7 @@
     "build": "yarn s build",
     "clean": "yarn s clean",
     "test": "npx jest --runInBand -c=jest.config.js packages/ --verbose",
+    "test:one": "npx jest --runInBand -c=jest.config.js --verbose",
     "test:coverage": "yarn test:all --coverage",
     "test:coveralls": "yarn test:coverage --coverageReporters=text-lcov | coveralls",
     "test:all": "yarn test:mysql && yarn test:postgres",

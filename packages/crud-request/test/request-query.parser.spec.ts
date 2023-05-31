@@ -407,6 +407,12 @@ describe('#request-query', () => {
         const test = qp.parseQuery(query);
         expect(test.search).toMatchObject(expected);
       });
+      it('should parse search with $not', () => {
+        const query = { s: '{"$not":[{"id":1},{"name":"foo"}]}' };
+        const expected = { $not: [{ id: 1 }, { name: 'foo' }] };
+        const test = qp.parseQuery(query);
+        expect(test.search).toMatchObject(expected);
+      });
     });
 
     describe('#parseParams', () => {

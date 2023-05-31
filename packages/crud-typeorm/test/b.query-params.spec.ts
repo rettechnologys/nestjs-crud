@@ -177,7 +177,7 @@ describe('#crud-typeorm', () => {
     beforeAll(async () => {
       const fixture = await Test.createTestingModule({
         imports: [
-          TypeOrmModule.forRoot({ ...withCache, logging: false }),
+          TypeOrmModule.forRoot({ ...withCache, logging: true }),
           TypeOrmModule.forFeature([Company, Project, User, UserProfile, Note]),
         ],
         controllers: [
@@ -780,6 +780,38 @@ describe('#crud-typeorm', () => {
           .expect(200);
         expect(res.body).toBeArrayOfSize(1);
         expect(res.body[0].id).toBe(3);
+      });
+      it('should return with search, 19', async () => {
+        const query = qb
+          .search({
+            $and: [
+              { name: { $notnull: true } },
+              {
+                $not: [{ $and: [{ isActive: false }, { id: { $ne: 3 } }] }],
+              },
+              { name: { $eq: 'Project3' } },
+              {
+                $or: [{ isActive: false }, { id: { $eq: 3 } }],
+              },
+            ],
+          })
+          .query();
+        const res = await projects2()
+          .query(query)
+          .expect(200);
+        expect(res.body).toBeArrayOfSize(1);
+        expect(res.body[0].id).toBe(3);
+      });
+      it('should return with search, 20', async () => {
+        const query = qb
+          .search({
+            $not: [{ id: { $in: [5, 6, 7, 8, 9, 10] } }, { name: { $notnull: true } }],
+          })
+          .query();
+        const res = await projects2()
+          .query(query)
+          .expect(200);
+        expect(res.body).toBeArrayOfSize(14);
       });
       it('should return with default filter, 1', async () => {
         const query = qb.search({ name: 'Project11' }).query();

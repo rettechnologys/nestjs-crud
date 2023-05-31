@@ -103,6 +103,7 @@ export interface SFieldOperator {
   $notinL?: SFiledValues;
   $or?: SFieldOperator;
   $and?: never;
+  $not?: never;
 }
 
 export type SField =
@@ -111,16 +112,24 @@ export type SField =
   | { [$custom: string]: SFiledValues };
 
 export interface SFields {
-  [key: string]: SField | Array<SFields | SConditionAND> | undefined;
-  $or?: Array<SFields | SConditionAND>;
+  [key: string]: SField | Array<SFields | SConditionAND | SConditionNOT> | undefined;
+  $or?: Array<SFields | SConditionAND | SConditionNOT>;
   $and?: never;
+  $not?: never;
 }
 
 export interface SConditionAND {
-  $and?: Array<SFields | SConditionAND>;
+  $and?: Array<SFields | SConditionAND | SConditionNOT>;
   $or?: never;
+  $not?: never;
 }
 
-export type SConditionKey = '$and' | '$or';
+export interface SConditionNOT {
+  $and?: never;
+  $or?: never;
+  $not: Array<SFields | SConditionAND | SConditionNOT>;
+}
 
-export type SCondition = SFields | SConditionAND;
+export type SConditionKey = '$and' | '$or' | '$not';
+
+export type SCondition = SFields | SConditionAND | SConditionNOT;
