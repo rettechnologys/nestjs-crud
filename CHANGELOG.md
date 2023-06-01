@@ -1,3 +1,15 @@
+## [5.2.4] - 2023-06-01
+
+- d6d3c4eb - Merge pull requestfrom xTCry/class-transform-options
+  Support
+- 96043ecb - Implement `$not` operator in `search`
+
+## [5.1.13] - 2023-06-01
+
+- d6d3c4eb - Merge pull requestfrom xTCry/class-transform-options
+  Support
+- 96043ecb - Implement `$not` operator in `search`
+
 ## [5.2.3] - 2023-03-16
 
 ### Features

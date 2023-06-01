@@ -69,7 +69,7 @@ _Example:_
 
 ### search
 
-Adds a search condition as a JSON string to you request. You can combine `$and`, `$or` and use any [condition](#filter-conditions) you need. Make sure it's being sent encoded or just use [`RequestQueryBuilder`](#frontend-usage)
+Adds a search condition as a JSON string to you request. You can combine `$and`, `$or` and `$not` and use any [condition](#filter-conditions) you need. Make sure it's being sent encoded or just use [`RequestQueryBuilder`](#frontend-usage)
 
 _Syntax:_
 
@@ -92,6 +92,10 @@ _Some examples:_
 - Search an entity where `isActive` is `false` OR `updatedAt` is not `null`
 
 > ?s={"**\$or**": [{"isActive": false}, {"updatedAt": {"**$notnull**": true}}]}
+
+- Search an entity where condition is negated
+
+> ?s={"**\$not": [{"**\$or**": [{"isActive": false}, {"updatedAt": {"**\$notnull\*\*": true}}]}]}
 
 So the amount of combinations is really huge.
 
