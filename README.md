@@ -88,21 +88,20 @@ We believe that everyone who's working with NestJs and building some RESTful ser
 
 ## Install
 
-  yarn add @dataui/crud-typeorm
-
+yarn add @dataui/crud-typeorm
 
 ## Packages
 
-- [**@dataui/crud**](https://www.npmjs.com/package/@dataui/crud) - core package which provides `@Crud()` decorator for endpoints generation, global configuration, validation, helper decorators ([docs](https://github.com/dataui/crud/wiki/Controllers#description))
-- [**@dataui/crud-request**](https://www.npmjs.com/package/@dataui/crud-request) - request builder/parser package which provides `RequestQueryBuilder` class for a frontend usage and `RequestQueryParser` that is being used internally for handling and validating query/path params on a backend side ([docs](https://github.com/dataui/crud/wiki/Requests#frontend-usage))
-- [**@dataui/crud-typeorm**](https://www.npmjs.com/package/@dataui/crud-typeorm) - TypeORM package which provides base `TypeOrmCrudService` with methods for CRUD database operations ([docs](https://github.com/dataui/crud/wiki/ServiceTypeorm))
+- [**@dataui/crud**](https://www.npmjs.com/package/@dataui/crud) - core package which provides `@Crud()` decorator for endpoints generation, global configuration, validation, helper decorators ([docs](https://gid-oss.github.io/dataui-nestjs-crud/controllers/#description))
+- [**@dataui/crud-request**](https://www.npmjs.com/package/@dataui/crud-request) - request builder/parser package which provides `RequestQueryBuilder` class for a frontend usage and `RequestQueryParser` that is being used internally for handling and validating query/path params on a backend side ([docs](https://gid-oss.github.io/dataui-nestjs-crud/requests/#frontend-usage))
+- [**@dataui/crud-typeorm**](https://www.npmjs.com/package/@dataui/crud-typeorm) - TypeORM package which provides base `TypeOrmCrudService` with methods for CRUD database operations ([docs](https://gid-oss.github.io/dataui-nestjs-crud/service-typeorm/))
 
 ## Documentation
 
-- :dart: [General Information](https://github.com/dataui/crud/wiki#why)
-- :video_game: [CRUD Controllers](https://github.com/dataui/crud/wiki/Controllers#description)
-- :horse_racing: [CRUD ORM Services](https://github.com/dataui/crud/wiki/Services#description)
-- :trumpet: [Handling Requests](https://github.com/dataui/crud/wiki/Requests#description)
+- :dart: [General Information](https://gid-oss.github.io/dataui-nestjs-crud/)
+- :video_game: [CRUD Controllers](https://gid-oss.github.io/dataui-nestjs-crud/controllers/#description)
+- :horse_racing: [CRUD ORM Services](https://gid-oss.github.io/dataui-nestjs-crud/controllers/#description)
+- :trumpet: [Handling Requests](https://gid-oss.github.io/dataui-nestjs-crud/requests/#description)
 
 ## Build library and run tests
 
@@ -133,28 +132,9 @@ Any support is welcome. At least you can give us a star :star:
 This project exists thanks to all the people who contributed. [[Contribute](CODE_OF_CONDUCT.md)].
 <a href="https://github.com/dataui/crud/graphs/contributors"><img src="https://opencollective.com/nestjsx/contributors.svg?width=890&button=false" /></a>
 
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/nestjsx#backer)]
-
-#### Individuals
-
-<a href="https://opencollective.com/nestjsx#backers" target="_blank"><img src="https://opencollective.com/nestjsx/backers.svg?width=890&button=false"></a>
-
 #### Organizations
 
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/nestjsx#sponsor)]
-
-<a href="https://opencollective.com/nestjsx/sponsor/0/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/1/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/2/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/3/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/4/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/5/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/6/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/7/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/8/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/nestjsx/sponsor/9/website" target="_blank"><img src="https://opencollective.com/nestjsx/sponsor/9/avatar.svg"></a>
+Currently this project is supported by [Get It Done](https://www.getitdone.rocks/)
 
 ## License
 

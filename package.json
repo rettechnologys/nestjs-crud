@@ -1,6 +1,6 @@
 {
   "name": "@dataui/crud",
-  "version": "4.0.0",
+  "version": "5.1.0",
   "description": "Nest CRUD for RESTful APIs",
   "license": "MIT",
   "workspaces": [
@@ -47,13 +47,6 @@
     "hooks": {
       "pre-commit": "yarn format --staged",
       "commit-msg": "npx validate-commit-msg"
-    }
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/nestjsx",
-    "donation": {
-      "text": "Become a partner:"
     }
   },
   "peerDependencies": {},
