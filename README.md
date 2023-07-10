@@ -106,7 +106,7 @@ yarn add @dataui/crud-typeorm
 ## Build library and run tests
 
 ```
-yarn bootstrap
+yarn install
 yarn clean
 yarn build
 docker compose up -d
