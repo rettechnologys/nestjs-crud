@@ -1,3 +1,11 @@
+## [5.3.1] - 2023-11-10
+
+- 7377c0d - feat: add array operators
+
+## [5.3.0] - 2023-07-10
+
+- c69a25a - nestjs 10 support fix spelling error
+
 ## [5.2.4] - 2023-06-01
 
 - d6d3c4eb - Merge pull requestfrom xTCry/class-transform-options
