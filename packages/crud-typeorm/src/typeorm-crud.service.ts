@@ -189,11 +189,13 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     const toSave = !allowParamsOverride
       ? { ...found, ...dto, ...paramsFilters, ...req.parsed.authPersist }
       : { ...found, ...dto, ...req.parsed.authPersist };
-    const updated = await this.repo.save((plainToClass(
-      this.entityType,
-      toSave,
-      req.parsed.classTransformOptions,
-    ) as unknown) as DeepPartial<T>);
+    const updated = await this.repo.save(
+      plainToClass(
+        this.entityType,
+        toSave,
+        req.parsed.classTransformOptions,
+      ) as unknown as DeepPartial<T>,
+    );
 
     if (returnShallow) {
       return updated;
@@ -237,11 +239,13 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
           ...dto,
           ...req.parsed.authPersist,
         };
-    const replaced = await this.repo.save((plainToClass(
-      this.entityType,
-      toSave,
-      req.parsed.classTransformOptions,
-    ) as unknown) as DeepPartial<T>);
+    const replaced = await this.repo.save(
+      plainToClass(
+        this.entityType,
+        toSave,
+        req.parsed.classTransformOptions,
+      ) as unknown as DeepPartial<T>,
+    );
 
     if (returnShallow) {
       return replaced;
@@ -492,9 +496,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
         );
   }
 
-  protected getEntityColumns(
-    entityMetadata: EntityMetadata,
-  ): {
+  protected getEntityColumns(entityMetadata: EntityMetadata): {
     columns: string[];
     primaryColumns: string[];
   } {
@@ -1196,7 +1198,9 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
             this.checkFilterIsArray(cond);
           }
           str = customOperator.query(field, param);
-          params = customOperator.params;
+          if (customOperator.params) {
+            params = customOperator.params;
+          }
         } catch (error) {
           this.throwBadRequestException(`Invalid custom operator '${field}' query`);
         }
