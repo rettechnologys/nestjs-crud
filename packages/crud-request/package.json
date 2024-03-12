@@ -1,7 +1,7 @@
 {
-  "name": "@dataui/crud-request",
+  "name": "@rettechnologys/crud-request",
   "description": "NestJs CRUD for RESTful APIs - request query builder",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -14,10 +14,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/gid-oss/dataui-nestjs-crud"
+    "url": "https://github.com/rettechnologys/nestjs-crud"
   },
   "bugs": {
-    "url": "https://github.com/gid-oss/dataui-nestjs-crud/issues"
+    "url": "https://github.com/rettechnologys/nestjs-crud/issues"
   },
   "keywords": [
     "typescript",
@@ -51,5 +51,5 @@
     "@dataui/crud-util": "^5.3.2",
     "qs": "^6.8.0"
   },
-  "gitHead": "d9e468bd6e47762cf0de415d049f56078195ddb3"
+  "gitHead": "6b3847c0801e2c9a042ff4e3f6f9652bf9dca9ec"
 }
