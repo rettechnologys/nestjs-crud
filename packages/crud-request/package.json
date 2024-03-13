@@ -48,7 +48,7 @@
     "build": "npx tsc -b"
   },
   "dependencies": {
-    "@dataui/crud-util": "^5.3.2",
+    "@rettechnologys/crud-util": "^5.3.2",
     "qs": "^6.8.0"
   },
   "gitHead": "6b3847c0801e2c9a042ff4e3f6f9652bf9dca9ec"

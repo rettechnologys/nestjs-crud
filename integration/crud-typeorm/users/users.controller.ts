@@ -6,7 +6,7 @@ import {
   CrudRequest,
   ParsedRequest,
   Override,
-} from '@dataui/crud';
+} from '@rettechnologys/crud';
 
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -37,7 +37,8 @@ import { UsersService } from './users.service';
         exclude: ['description'],
       },
       profile: {
-        eager: true,
+        alias: 'profile',
+        eager: false,
         exclude: ['updatedAt'],
       },
     },

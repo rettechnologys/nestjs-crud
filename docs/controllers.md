@@ -7,7 +7,7 @@ nav_order: 20
 
 ## Description
 
-[**@dataui/crud**](https://www.npmjs.com/package/@dataui/crud) - core package which provides `@Crud()` controller decorator for endpoints generation, global configuration, validation, helper decorators.
+[**@rettechnologys/crud**](https://www.npmjs.com/package/@rettechnologys/crud) - core package which provides `@Crud()` controller decorator for endpoints generation, global configuration, validation, helper decorators.
 
 ## Table of Contents
 
@@ -35,18 +35,18 @@ nav_order: 20
 ## Install
 
 ```shell
-npm i @dataui/crud class-transformer class-validator
+npm i @rettechnologys/crud class-transformer class-validator
 ```
 
 ### Using TypeORM
 
 ```shell
-npm i @dataui/crud-typeorm @nestjs/typeorm typeorm
+npm i @rettechnologys/crud-typeorm @nestjs/typeorm typeorm
 ```
 
 ## Getting started
 
-Let's take a look at the example of using `@dataui/crud` with TypeORM.
+Let's take a look at the example of using `@rettechnologys/crud` with TypeORM.
 
 Assume we have some TypeORM **entity**:
 
@@ -66,7 +66,7 @@ Then we need to create a **service**:
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TypeOrmCrudService } from '@dataui/crud-typeorm';
+import { TypeOrmCrudService } from '@rettechnologys/crud-typeorm';
 
 import { Company } from './company.entity';
 
@@ -82,7 +82,7 @@ We've done with the service so let's create a **controller**:
 
 ```typescript
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudController } from '@rettechnologys/crud';
 
 import { Company } from './company.entity';
 import { CompaniesService } from './companies.service';
@@ -496,7 +496,7 @@ This option can be used in two scenarios:
 - Transform query search conditions:
 
 ```typescript
-import { SCondition } from '@dataui/crud-request'
+import { SCondition } from '@rettechnologys/crud-request'
 
 ...
 
@@ -704,7 +704,7 @@ In order to reduce some repetition in your `CrudOptions` in every controller you
 }
 ```
 
-`queryParser` are options for `RequestQueryParser` that is being used in `CrudRequestInterceptor` to parse/validate query and path params. Frontend has similar [customization](https://github.com/dataui/crud/wiki/Requests#customize) ability.
+`queryParser` are options for `RequestQueryParser` that is being used in `CrudRequestInterceptor` to parse/validate query and path params. Frontend has similar [customization](https://github.com/rettechnologys/crud/wiki/Requests#customize) ability.
 
 `routes` are the same as [here](#routes).
 
@@ -717,7 +717,7 @@ In order to reduce some repetition in your `CrudOptions` in every controller you
 So in order to apply global options you need load them in your **main.ts (index.ts) file BEFORE you import `AppModule` class**. That's because TypeScript decorators are executed when we declare our class but not when we create new class instance. So in your `main.ts`:
 
 ```typescript
-import { CrudConfigService } from '@dataui/crud';
+import { CrudConfigService } from '@rettechnologys/crud';
 
 CrudConfigService.load({
   query: {
@@ -763,11 +763,11 @@ In order to perform data filtering for authenticated requests, we provide `@Crud
 
 `property` - property on the `Request` object where user's data stored after successful authentication. Can be set [globally](#global-options) as well.
 
-`filter` - a function that should return [search](https://github.com/dataui/crud/wiki/Requests#search) condition and will be added to the query search params and path params as a `$and` condition:
+`filter` - a function that should return [search](https://github.com/rettechnologys/crud/wiki/Requests#search) condition and will be added to the query search params and path params as a `$and` condition:
 
 > `{Auth condition} AND {Path params} AND {Search|Filter}`
 
-`or` - a function that should return [search](https://github.com/dataui/crud/wiki/Requests#search) condition and will be added to the query search params and path params as a `$or` condition. If it's used then `filter` function will be ignored.
+`or` - a function that should return [search](https://github.com/rettechnologys/crud/wiki/Requests#search) condition and will be added to the query search params and path params as a `$or` condition. If it's used then `filter` function will be ignored.
 
 > `{Auth condition} OR ({Path params} AND {Search|Filter})`
 
@@ -800,7 +800,7 @@ Let's take a look at this example:
 import { Entity, Column, OneToMany } from 'typeorm';
 import { IsOptional, IsString, MaxLength, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CrudValidationGroups } from '@dataui/crud';
+import { CrudValidationGroups } from '@rettechnologys/crud';
 
 import { BaseEntity } from '../base-entity';
 import { User } from '../users/user.entity';
@@ -873,7 +873,7 @@ Second, even after adding `CrudController` interface you still wouldn't see comp
 
 ```typescript
 ...
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudController } from '@rettechnologys/crud';
 
 @Crud(Hero)
 @Controller('heroes')
@@ -944,7 +944,7 @@ import {
   ParsedRequest,
   ParsedBody,
   CreateManyDto,
-} from '@dataui/crud';
+} from '@rettechnologys/crud';
 
 @Crud({
   model: {
@@ -1027,7 +1027,7 @@ import {
   ParsedRequest,
   CrudRequest,
   CrudRequestInterceptor,
-} from '@dataui/crud';
+} from '@rettechnologys/crud';
 ...
 
 @UseInterceptors(CrudRequestInterceptor)
@@ -1057,7 +1057,7 @@ enum CrudActions {
 
 ```typescript
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { getFeature, getAction } from '@dataui/crud';
+import { getFeature, getAction } from '@rettechnologys/crud';
 
 @Injectable()
 export class ACLGuard implements CanActivate {

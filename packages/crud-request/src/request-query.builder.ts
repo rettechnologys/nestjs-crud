@@ -5,7 +5,7 @@ import {
   isObject,
   isString,
   isUndefined,
-} from '@dataui/crud-util';
+} from '@rettechnologys/crud-util';
 import { stringify } from 'qs';
 
 import {

@@ -8,7 +8,7 @@ import {
   JoinOption,
   JoinOptions,
   QueryOptions,
-} from '@dataui/crud';
+} from '@rettechnologys/crud';
 import {
   ComparisonOperator,
   ParsedRequestParams,
@@ -17,7 +17,7 @@ import {
   QuerySort,
   SCondition,
   SConditionKey,
-} from '@dataui/crud-request';
+} from '@rettechnologys/crud-request';
 import {
   ClassType,
   hasLength,
@@ -27,7 +27,7 @@ import {
   isObject,
   isUndefined,
   objKeys,
-} from '@dataui/crud-util';
+} from '@rettechnologys/crud-util';
 import { oO } from '@zmotivat0r/o0';
 import { plainToClass } from 'class-transformer';
 import {
@@ -102,8 +102,12 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
    */
   public async getMany(req: CrudRequest): Promise<GetManyDefaultResponse<T> | T[]> {
     const { parsed, options } = req;
+    /* retts was here */
     const builder = await this.createBuilder(parsed, options);
-    return this.doGetMany(builder, parsed, options);
+    //console.log(builder);
+    //builder.printSql().getMany();
+    const res = this.doGetMany(builder, parsed, options);
+    return res;
   }
 
   /**
@@ -111,7 +115,9 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
    * @param req
    */
   public async getOne(req: CrudRequest): Promise<T> {
-    return this.getOneOrFail(req);
+    /* retts was here */
+    const res = await this.getOneOrFail(req);
+    return res;
   }
 
   /**
@@ -372,6 +378,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       /* istanbul ignore else */
       if (isFinite(skip)) {
         builder.skip(skip);
+        //builder.offset(skip);
       }
     }
 
@@ -999,6 +1006,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
   }
 
   protected getSelect(query: ParsedRequestParams, options: QueryOptions): string[] {
+    /* retts was here */
     const allowed = this.getAllowedColumns(this.entityColumns, options);
 
     const columns =
@@ -1041,7 +1049,14 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       case 2:
         return field;
       default:
-        return cols.slice(cols.length - 2, cols.length).join('.');
+        /* retts was here */
+        let filedSlice = cols.slice(cols.length - 2, cols.length).join('.');
+
+        if (sort && cols[0].toLowerCase() === this.alias.toLowerCase()) {
+          filedSlice = `${this.alias}.${filedSlice}`;
+        }
+
+        return filedSlice;
     }
   }
 
@@ -1049,6 +1064,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     const params: ObjectLiteral = {};
 
     for (let i = 0; i < sort.length; i++) {
+      /* retts was here */
       const field = this.getFieldWithAlias(sort[i].field, true);
       const checkedFiled = this.checkSqlInjection(field);
       params[checkedFiled] = sort[i].order;

@@ -1,4 +1,4 @@
-import { ParsedRequestParams } from '@dataui/crud-request';
+import { ParsedRequestParams } from '@rettechnologys/crud-request';
 
 import { CrudRequestOptions } from '../interfaces';
 

@@ -1,5 +1,5 @@
 {
-  "name": "@dataui/crud",
+  "name": "@rettechnologys/crud",
   "version": "5.1.0",
   "description": "Nest CRUD for RESTful APIs",
   "license": "MIT",
@@ -55,7 +55,7 @@
     "@nestjs/platform-express": "8.2.4",
     "@nestjs/swagger": "5.1.5",
     "@nestjs/testing": "8.2.4",
-    "@nestjs/typeorm": "8.1.3",
+    "@nestjs/typeorm": "10.0.2",
     "@nuxtjs/opencollective": "0.3.2",
     "@types/jest": "26.0.24",
     "@types/node": "12.7.5",
@@ -92,7 +92,7 @@
     "tsconfig-paths": "3.9.0",
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
-    "typeorm": "0.3.6",
+    "typeorm": "0.3.20",
     "typescript": "4.2.4",
     "validate-commit-msg": "2.14.0"
   },
@@ -113,6 +113,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gid-oss/dataui-nestjs-crud"
+    "url": "https://github.com/rettechnologys/nestjs-crud"
   }
 }
