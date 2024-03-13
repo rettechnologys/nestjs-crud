@@ -1,3 +1,7 @@
+## [5.3.3] - 2024-04-13
+
+- 7377c0d - feat(fork): Rename from dataui to rettechnologys
+
 ## [5.3.1] - 2023-11-10
 
 - 7377c0d - feat: add array operators
