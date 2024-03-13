@@ -38,7 +38,7 @@ import { UsersService } from './users.service';
       },
       profile: {
         alias: 'profile',
-        eager: false,
+        eager: true,
         exclude: ['updatedAt'],
       },
     },

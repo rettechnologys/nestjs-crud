@@ -1,6 +1,14 @@
+## [5.3.5] - 2024-04-13
+
+- fix: orderby object - crud-typeorm
+  
+## [5.3.4] - 2024-04-13
+
+- bump: bump typeorm version to 0.3.16
+  
 ## [5.3.3] - 2024-04-13
 
-- 7377c0d - feat(fork): Rename from dataui to rettechnologys
+- b2526a5 - feat(fork): Rename from dataui to rettechnologys
 
 ## [5.3.1] - 2023-11-10
 
