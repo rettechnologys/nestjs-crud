@@ -1,3 +1,7 @@
+## [5.3.6] - 2024-04-13
+
+- fix: getFieldWithAlias for sort - crud-typeorm
+
 ## [5.3.5] - 2024-04-13
 
 - fix: orderby object - crud-typeorm

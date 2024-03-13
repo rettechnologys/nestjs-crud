@@ -1052,10 +1052,16 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
         /* retts was here */
         let filedSlice = cols.slice(cols.length - 2, cols.length).join('.');
 
-        if (sort && cols[0].toLowerCase() === this.alias.toLowerCase()) {
-          filedSlice = `${this.alias}.${filedSlice}`;
+        if (sort) {
+          if (cols[0].toLowerCase() === this.alias.toLowerCase()) {
+            filedSlice = `${this.alias}.${filedSlice}`;
+          } else {
+            if (cols.length === 3) {
+              filedSlice = field;
+            }
+          }
         }
-
+        //console.log('filedSlice:',filedSlice);
         return filedSlice;
     }
   }
