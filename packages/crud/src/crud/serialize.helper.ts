@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { GetManyDefaultResponse } from '../interfaces';
+import { GetManyDefaultResponse, IPagination, PaginationDto } from '../interfaces';
 import { ApiProperty } from './swagger.helper';
 
 export class SerializeHelper {
@@ -9,17 +9,19 @@ export class SerializeHelper {
       @Type(() => dto)
       data: any[];
 
-      @ApiProperty({ type: 'number' })
-      count: number;
+      pagination: PaginationDto;
 
-      @ApiProperty({ type: 'number' })
-      total: number;
+      // @ApiProperty({ type: 'number' })
+      // count: number;
 
-      @ApiProperty({ type: 'number' })
-      page: number;
+      // @ApiProperty({ type: 'number' })
+      // total: number;
 
-      @ApiProperty({ type: 'number' })
-      pageCount: number;
+      // @ApiProperty({ type: 'number' })
+      // page: number;
+
+      // @ApiProperty({ type: 'number' })
+      // pageCount: number;
     }
 
     Object.defineProperty(GetManyResponseDto, 'name', {

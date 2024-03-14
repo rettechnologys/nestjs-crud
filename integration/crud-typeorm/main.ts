@@ -12,6 +12,10 @@ CrudConfigService.load({
   routes: {
     // exclude: ['createManyBase'],
   },
+  query: {
+    limit: 5,
+    cache: 0,
+  },
 });
 
 import { HttpExceptionFilter } from '../shared/https-exception.filter';

@@ -15,6 +15,7 @@ export interface CrudRequestOptions {
   routes?: RoutesOptions;
   params?: ParamsOptions;
   operators?: OperatorsOptions;
+  currentRoute?: string;
 }
 
 export interface CrudOptions {
@@ -27,6 +28,7 @@ export interface CrudOptions {
   params?: ParamsOptions;
   validation?: ValidationPipeOptions | false;
   operators?: OperatorsOptions;
+  currentRoute?: string;
 }
 
 export interface MergedCrudOptions extends CrudOptions {

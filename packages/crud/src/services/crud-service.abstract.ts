@@ -7,8 +7,11 @@ import {
   CrudRequest,
   CrudRequestOptions,
   GetManyDefaultResponse,
+  ILinkPage,
+  IPaginationOptionsRoutingLabels,
   QueryOptions,
 } from '../interfaces';
+import { updateUrlParameter } from '../util';
 
 export abstract class CrudService<T, DTO = T> {
   abstract getMany(req: CrudRequest): Promise<GetManyDefaultResponse<T> | T[]>;
@@ -49,13 +52,62 @@ export abstract class CrudService<T, DTO = T> {
     total: number,
     limit: number,
     offset: number,
+    route?: string,
+    routingLabels?: IPaginationOptionsRoutingLabels,
   ): GetManyDefaultResponse<T> {
+    /* retts was here */
+    const itemFound = data.length;
+    const itemTotal = total;
+    const itemPerPage = limit;
+    const totalPage = limit && total ? Math.ceil(total / limit) : 1;
+    const currentPage = limit ? Math.floor(offset / limit) + 1 : 1;
+
+    const hasFirstPage = route;
+    const hasPreviousPage = route && currentPage > 1;
+    const hasNextPage = route && itemTotal !== undefined && currentPage < totalPage;
+    const hasLastPage = route && itemTotal !== undefined && totalPage > 0;
+    const symbol = route && new RegExp(/\?/).test(route) ? '&' : '?';
+
+    const limitLabel =
+      routingLabels && routingLabels.limitLabel ? routingLabels.limitLabel : 'limit';
+
+    const pageLabel =
+      routingLabels && routingLabels.pageLabel ? routingLabels.pageLabel : 'page';
+
+    const routes: ILinkPage =
+      itemTotal !== undefined
+        ? {
+            first: hasFirstPage ? updateUrlParameter(route, pageLabel, 1) : '',
+            previous: hasPreviousPage
+              ? updateUrlParameter(route, pageLabel, currentPage - 1)
+              : '',
+            next: hasNextPage
+              ? updateUrlParameter(route, pageLabel, currentPage + 1)
+              : '',
+            last: hasLastPage ? updateUrlParameter(route, pageLabel, totalPage) : '',
+            // first: hasFirstPage ? `${route}&${pageLabel}=1` : '',
+            // previous: hasPreviousPage ? `${route}&${pageLabel}=${currentPage - 1}` : '',
+            // next: hasNextPage ? `${route}&${pageLabel}=${currentPage + 1}` : '',
+            // last: hasLastPage ? `${route}&${pageLabel}=${totalPage}` : '',
+          }
+        : undefined;
+
+    const links = route ? routes : undefined;
+
     return {
       data,
-      count: data.length,
-      total,
-      page: limit ? Math.floor(offset / limit) + 1 : 1,
-      pageCount: limit && total ? Math.ceil(total / limit) : 1,
+      pagination: {
+        itemFound,
+        itemTotal,
+        itemPerPage,
+        totalPage,
+        currentPage,
+        linkPage: links,
+      },
+      // count: data.length,
+      // total,
+      // page: limit ? Math.floor(offset / limit) + 1 : 1,
+      // pageCount: limit && total ? Math.ceil(total / limit) : 1,
     };
   }
 

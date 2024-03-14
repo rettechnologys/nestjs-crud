@@ -47,6 +47,11 @@ export class CrudRequestInterceptor
           parser.search = { $and: this.getSearch(parser, crudOptions, action) };
         }
 
+        /* retts was here */
+        crudOptions.currentRoute = req.url;
+        // console.log('currentRoute1', req.url);
+        // console.log('currentRoute2', crudOptions.currentRoute);
+
         req[PARSED_CRUD_REQUEST_KEY] = this.getCrudRequest(
           parser,
           crudOptions,
@@ -69,7 +74,7 @@ export class CrudRequestInterceptor
     auth?: any,
   ): CrudRequest {
     const parsed = parser.getParsed();
-    const { query, routes, params, operators } = crudOptions;
+    const { query, routes, params, operators, currentRoute } = crudOptions;
     return {
       parsed,
       options: {
@@ -77,6 +82,7 @@ export class CrudRequestInterceptor
         routes,
         params,
         operators,
+        currentRoute,
       },
       auth,
     };

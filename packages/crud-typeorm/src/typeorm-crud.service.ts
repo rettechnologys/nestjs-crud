@@ -411,7 +411,15 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       const limit = builder.expressionMap.take;
       const offset = builder.expressionMap.skip;
 
-      return this.createPageInfo(data, total, limit || total, offset || 0);
+      /* retts was here */
+      //console.log('currentRoute3', options.currentRoute);
+      return this.createPageInfo(
+        data,
+        total,
+        limit || total,
+        offset || 0,
+        options.currentRoute,
+      );
     }
 
     return builder.getMany();

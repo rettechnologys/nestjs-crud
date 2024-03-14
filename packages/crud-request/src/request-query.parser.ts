@@ -365,7 +365,7 @@ export class RequestQueryParser implements ParsedRequestParams {
     const param = data.split(this._options.delimStr);
     const sort: QuerySort = {
       field: param[0],
-      order: param[1] as any,
+      order: param[1].toUpperCase() as any,
     };
     validateSort(sort);
 

@@ -17,7 +17,7 @@ import { serialize } from './responses';
     },
   },
   query: {
-    alwaysPaginate: false,
+    alwaysPaginate: true,
     softDelete: true,
     allow: ['name'],
     join: {
