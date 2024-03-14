@@ -1069,7 +1069,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
             }
           }
         }
-        //console.log('filedSlice:',filedSlice);
+        //console.log('filedSlice:', filedSlice);
         return filedSlice;
     }
   }
