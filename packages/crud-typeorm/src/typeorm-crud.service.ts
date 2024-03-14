@@ -30,6 +30,7 @@ import {
 } from '@rettechnologys/crud-util';
 import { oO } from '@zmotivat0r/o0';
 import { plainToClass } from 'class-transformer';
+import { join } from 'path';
 import {
   Brackets,
   ConnectionOptions,
@@ -1032,14 +1033,16 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
   }
 
   protected getSort(query: ParsedRequestParams, options: QueryOptions) {
+    /* retts was here */
+    const joins: string[] = options.join ? Object.keys(options.join) : [];
     return query.sort && query.sort.length
-      ? this.mapSort(query.sort)
+      ? this.mapSort(query.sort, joins)
       : options.sort && options.sort.length
-      ? this.mapSort(options.sort)
+      ? this.mapSort(options.sort, joins)
       : {};
   }
 
-  protected getFieldWithAlias(field: string, sort: boolean = false) {
+  protected getFieldWithAlias(field: string, sort: boolean = false, joins?: string[]) {
     /* istanbul ignore next */
     const i = ['mysql', 'mariadb'].includes(this.dbName) ? '`' : '"';
     const cols = field.split('.');
@@ -1059,27 +1062,34 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       default:
         /* retts was here */
         let filedSlice = cols.slice(cols.length - 2, cols.length).join('.');
+        // const filedSlice2 = cols.slice(0, 2).join('.');
+        const filedSlice2 = cols.slice(0, cols.length - 1).join('.');
 
         if (sort) {
-          if (cols[0].toLowerCase() === this.alias.toLowerCase()) {
+          if (cols[0].toLowerCase() === 'obj') {
             filedSlice = `${this.alias}.${filedSlice}`;
           } else {
-            if (cols.length === 3) {
+            if (joins && !joins.includes(filedSlice2)) {
               filedSlice = field;
             }
           }
         }
-        //console.log('filedSlice:', filedSlice);
+
+        // console.log('filedSlice:', filedSlice);
+        // console.log('filedSlice2:', filedSlice2);
+        // console.log('filedSlice3:', joins);
+        // console.log('filedSlice4:', joins.includes(filedSlice2));
+
         return filedSlice;
     }
   }
 
-  protected mapSort(sort: QuerySort[]) {
+  protected mapSort(sort: QuerySort[], joins?: string[]) {
     const params: ObjectLiteral = {};
 
     for (let i = 0; i < sort.length; i++) {
       /* retts was here */
-      const field = this.getFieldWithAlias(sort[i].field, true);
+      const field = this.getFieldWithAlias(sort[i].field, true, joins);
       const checkedFiled = this.checkSqlInjection(field);
       params[checkedFiled] = sort[i].order;
     }

@@ -22,7 +22,7 @@ import { serialize } from './responses';
     allow: ['name'],
     join: {
       users: {
-        alias: 'companyUsers',
+        alias: 'users',
         exclude: ['email'],
         eager: true,
       },

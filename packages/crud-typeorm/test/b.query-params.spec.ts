@@ -575,20 +575,20 @@ describe('#crud-typeorm', () => {
       });
 
       /* retts was here */
-      // it('should sort by nested field, 3', async () => {
-      //   const query = qb
-      //     .setFilter({ field: 'id', operator: 'eq', value: 1 })
-      //     .setFilter({ field: 'company.id', operator: 'notnull' })
-      //     .setFilter({ field: 'projects.id', operator: 'notnull' })
-      //     .setJoin({ field: 'company' })
-      //     .setJoin({ field: 'company.projects' })
-      //     .sortBy({ field: 'projects.id', order: 'DESC' })
-      //     .query();
-      //   const res = await request(server).get('/users').query(query).expect(200);
-      //   expect(res.body[0].company.projects[1].id).toBeLessThan(
-      //     res.body[0].company.projects[0].id,
-      //   );
-      // });
+      it('should sort by nested field, 3', async () => {
+        const query = qb
+          .setFilter({ field: 'id', operator: 'eq', value: 1 })
+          .setFilter({ field: 'company.id', operator: 'notnull' })
+          .setFilter({ field: 'projects.id', operator: 'notnull' })
+          .setJoin({ field: 'company' })
+          .setJoin({ field: 'company.projects' })
+          .sortBy({ field: 'company.projects.id', order: 'DESC' })
+          .query();
+        const res = await request(server).get('/users').query(query).expect(200);
+        expect(res.body[0].company.projects[1].id).toBeLessThan(
+          res.body[0].company.projects[0].id,
+        );
+      });
 
       it('should throw 400 if SQL injection has been detected', (done) => {
         const query = qb

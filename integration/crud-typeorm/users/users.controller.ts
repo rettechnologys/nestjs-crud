@@ -33,7 +33,7 @@ import { UsersService } from './users.service';
         exclude: ['description'],
       },
       'company.projects': {
-        alias: 'pr',
+        //alias: 'pr',
         exclude: ['description'],
       },
       profile: {

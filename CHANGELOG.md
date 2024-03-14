@@ -1,3 +1,7 @@
+## [5.3.8] - 2024-04-15
+
+- fix: bug fix on getFieldWithAlias sort
+
 ## [5.3.7] - 2024-04-14
 
 - feat: add pagination response
