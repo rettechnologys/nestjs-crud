@@ -54,7 +54,16 @@ export class UsersController implements CrudController<User> {
   }
 
   @Override('getManyBase')
-  getAll(@ParsedRequest() req: CrudRequest) {
-    return this.base.getManyBase(req);
+  async getAll(@ParsedRequest() req: CrudRequest) {
+    const res = await this.service.getMany(req);
+    console.log('getAll', res);
+    return res;
+  }
+
+  @Override('getOneBase')
+  async getOne(@ParsedRequest() req: CrudRequest) {
+    const res = await this.service.getOne(req, true);
+    console.log('getOne', res);
+    return res;
   }
 }

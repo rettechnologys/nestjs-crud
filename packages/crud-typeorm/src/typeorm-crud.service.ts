@@ -115,9 +115,9 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
    * Get one
    * @param req
    */
-  public async getOne(req: CrudRequest): Promise<T> {
+  public async getOne(req: CrudRequest, skipException?: boolean): Promise<T> {
     /* retts was here */
-    const res = await this.getOneOrFail(req);
+    const res = await this.getOneOrFail(req, false, false, skipException);
     return res;
   }
 
@@ -414,13 +414,15 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
 
       /* retts was here */
       //console.log('currentRoute3', options.currentRoute);
-      return this.createPageInfo(
-        data,
-        total,
-        limit || total,
-        offset || 0,
-        options.currentRoute,
-      );
+      if (data.length) {
+        return this.createPageInfo(
+          data,
+          total,
+          limit || total,
+          offset || 0,
+          options.currentRoute,
+        );
+      }
     }
 
     return builder.getMany();
@@ -447,6 +449,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
     req: CrudRequest,
     shallow = false,
     withDeleted = false,
+    skipException = false,
   ): Promise<T> {
     const { parsed, options } = req;
     const builder = shallow
@@ -461,7 +464,7 @@ export class TypeOrmCrudService<T> extends CrudService<T, DeepPartial<T>> {
       ? await builder.withDeleted().getOne()
       : await builder.getOne();
 
-    if (!found) {
+    if (!found && !skipException) {
       this.throwNotFoundException(this.alias);
     }
 

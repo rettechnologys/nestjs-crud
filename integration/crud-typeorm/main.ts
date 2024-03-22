@@ -13,7 +13,8 @@ CrudConfigService.load({
     // exclude: ['createManyBase'],
   },
   query: {
-    limit: 5,
+    //maxLimit: 100,
+    //limit: 5,
     cache: 0,
   },
 });

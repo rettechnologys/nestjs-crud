@@ -15,6 +15,7 @@ export const swaggerPkgJson = safeRequire('@nestjs/swagger/package.json', () =>
   require('@nestjs/swagger/package.json'),
 );
 
+/* retts was here */
 export class Swagger {
   static operationsMap(modelName): { [key in BaseRouteName]: string } {
     return {
@@ -496,9 +497,9 @@ export class Swagger {
               sortMeta,
               joinMeta,
               limitMeta,
-              offsetMeta,
+              //offsetMeta,
               pageMeta,
-              cacheMeta,
+              //cacheMeta,
               includeDeletedMeta,
             ]
           : [
@@ -509,14 +510,23 @@ export class Swagger {
               sortMeta,
               joinMeta,
               limitMeta,
-              offsetMeta,
+              //offsetMeta,
               pageMeta,
-              cacheMeta,
+              //cacheMeta,
             ];
       case 'getOneBase':
         return options.query.softDelete
-          ? [fieldsMeta, joinMeta, cacheMeta, includeDeletedMeta]
-          : [fieldsMeta, joinMeta, cacheMeta];
+          ? [
+              fieldsMeta,
+              joinMeta,
+              //cacheMeta,
+              includeDeletedMeta,
+            ]
+          : [
+              fieldsMeta,
+              joinMeta,
+              //cacheMeta,
+            ];
       default:
         return [];
     }

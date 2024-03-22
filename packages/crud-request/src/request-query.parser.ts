@@ -290,7 +290,7 @@ export class RequestQueryParser implements ParsedRequestParams {
   }
 
   private fieldsParser(data: string): QueryFields {
-    return data.split(this._options.delimStr);
+    return data.split(this._options.delimStr).map((str) => str.trim());
   }
 
   private parseSearchQueryParam(d: any): SCondition {
