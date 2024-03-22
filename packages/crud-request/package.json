@@ -1,7 +1,7 @@
 {
   "name": "@rettechnologys/crud-request",
   "description": "NestJs CRUD for RESTful APIs - request query builder",
-  "version": "5.3.8",
+  "version": "5.3.9",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -48,7 +48,7 @@
     "build": "npx tsc -b"
   },
   "dependencies": {
-    "@rettechnologys/crud-util": "^5.3.8",
+    "@rettechnologys/crud-util": "^5.3.9",
     "qs": "^6.8.0"
   },
   "gitHead": "6b3847c0801e2c9a042ff4e3f6f9652bf9dca9ec"
