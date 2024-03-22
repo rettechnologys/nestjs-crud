@@ -1,3 +1,8 @@
+## [5.3.9] - 2024-04-15
+
+- fix: adjust swagger helper
+- fix: adjust typeorm-crud service
+
 ## [5.3.8] - 2024-04-15
 
 - fix: bug fix on getFieldWithAlias sort
